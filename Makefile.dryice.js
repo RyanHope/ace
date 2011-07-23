@@ -304,58 +304,12 @@ project.assumeAllFilesLoaded();
     });
 });
 
-console.log('# cockpit ---------');
-
-project.assumeAllFilesLoaded();
-project.addRoot(aceHome + '/support/cockpit/lib');
-
-var cockpit = copy.createDataObject();
-copy({
-    source: [
-        copy.source.commonjs({
-            project: project,
-            require: [ 'cockpit/index' ]
-        })
-    ],
-    filter: [ copy.filter.moduleDefines ],
-    dest: cockpit
-});
-copy({
-    source: {
-        root: aceHome + '/support/cockpit/lib',
-        include: /.*\.css$|.*\.html$/,
-        exclude: /tests?\//
-    },
-    filter: [ copy.filter.addDefines ],
-    dest: cockpit
-});
-copy({
-    source: {
-        root: aceHome + '/support/cockpit/lib',
-        include: /.*\.png$|.*\.gif$/,
-        exclude: /tests?\//
-    },
-    filter: [ copy.filter.base64 ],
-    dest: cockpit
-});
-
-// Create the compressed and uncompressed output files
-copy({
-    source: cockpit,
-    filter: copy.filter.uglifyjs,
-    dest: 'build/src/cockpit.js'
-});
-copy({
-    source: cockpit,
-    dest: 'build/src/cockpit-uncompressed.js'
-});
-
 // copy complex demo
 //copy({
 //    source: aceHome + "/editor.html",
 //    filter: [ function(data) {
 //        var includes = [
-//            "ace", "cockpit",
+//            "ace",
 //            "keybinding-vim", "keybinding-emacs",
 //            "mode-javascript", "mode-css", "mode-html", "mode-php", "mode-python",
 //            "mode-xml",
